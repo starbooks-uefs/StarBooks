@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String       @id @db.Uuid
+  name         String       @db.VarChar(25)
+  last_name    String       @db.VarChar(25)
+  password     String       @db.VarChar(16)
+  email        String       @unique(map: "email") @db.VarChar(60)
+  birthdate    DateTime     @db.Timestamptz(6)
+  phone_number Int?
+  submission   Submission[]
+}
+
+model Book {
+  id                String       @id @db.Uuid
+  name              String       @db.VarChar(50)
+  gender            String       @db.VarChar(20)
+  publisher         String?      @db.VarChar(20)
+  id_producer       String       @db.Uuid
+  edition           Int
+  synopsis          String
+  pdf_url           String       @db.VarChar(255)
+  price             Float        @db.Real
+  pages_number      Int
+  date              DateTime     @db.Timestamptz(6)
+  cover_url         String       @db.VarChar(255)
+  rating            Int?
+  language          String?      @db.VarChar(25)
+  submission_status Boolean
+  submission_date   DateTime     @db.Timestamptz(6)
+  submission_reason String
+  producer          Producer     @relation(fields: [id_producer], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_book_00")
+  cart              Cart[]
+  purchase          Purchase[]
+  submission        Submission[]
+}
+
+model Cart {
+  id_book   String @db.Uuid
+  id_reader String @db.Uuid
+  reader    Reader @relation(fields: [id_reader], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_cart_00")
+  book      Book   @relation(fields: [id_book], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_cart_01")
+
+  @@id([id_book, id_reader])
+}
+
+model Producer {
+  id             String   @id @db.Uuid
+  name           String   @db.VarChar(25)
+  last_name      String   @db.VarChar(25)
+  password       String   @db.VarChar(16)
+  email          String   @unique @db.VarChar(60)
+  birthdate      DateTime @db.Timestamptz(6)
+  phone_number   Int?
+  cnpj           Int      @unique
+  bank_name      String   @db.VarChar(25)
+  bank_agency    Int
+  number_account Int
+  account_type   String   @db.VarChar(10)
+  book           Book[]
+}
+
+model Purchase {
+  id_book   String   @db.Uuid
+  id_reader String   @db.Uuid
+  date      DateTime @db.Timestamptz(6)
+  reader    Reader   @relation(fields: [id_reader], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_purchase_00")
+  book      Book     @relation(fields: [id_book], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_purchase_01")
+
+  @@id([id_book, id_reader])
+}
+
+model Reader {
+  id           String     @id @db.Uuid
+  name         String     @db.VarChar(25)
+  last_name    String     @db.VarChar(25)
+  password     String     @db.VarChar(16)
+  email        String     @unique @db.VarChar(60)
+  birthdate    DateTime   @db.Timestamp(6)
+  phone_number Int?
+  cpf          Int        @unique
+  gender       String?    @db.VarChar(15)
+  cardholder   String     @db.VarChar(50)
+  cvv          Int
+  card_number  Int
+  card_date    DateTime   @db.Timestamp(6)
+  cart         Cart[]
+  purchase     Purchase[]
+}
+
+model Submission {
+  id_admin String @db.Uuid
+  id_book  String @db.Uuid
+  admin    Admin  @relation(fields: [id_admin], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_submission_00")
+  book     Book   @relation(fields: [id_book], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "const_submission_01")
+
+  @@id([id_admin, id_book])
+}
