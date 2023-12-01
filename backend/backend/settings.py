@@ -131,4 +131,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ### NÃO DESCOMENTAR ###
-### AUTH_USER_MODEL = 'reader.models.BaseUser'
+### AUTH_USER_MODEL = 

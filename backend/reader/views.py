@@ -1,57 +1,50 @@
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.edit import CreateView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 from .models import Reader
-from .forms import ReaderSignUpForm, ReaderLoginForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from .serializers import ReaderSerializer
 
-# GET - O que aparece quando acessa a url
-# POST - Lógica para o que acontece quando realiza login/cadastro
-class SignUpView(CreateView):
-    # caminho do template na pasta "templates"
-    template_name = 'signup.html'
-    
-    def get(self, request, *args, **kwargs):
-        # Modelo do form
-        form = ReaderSignUpForm()
-        return render(request, self.template_name, {'form': form})
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+# Lista e criação de leitores
+'''
+ReaderListCreateView é uma classe de visualização genérica que lida
+com operações de lista (GET) e criação (POST) para a entidade Reader.
 
-    def post(self, request, *args, **kwargs):
-        # Modelo do form
-        form = ReaderSignUpForm(request.POST)
-        #return redirect('home')
-        # Verifica se os dados são válidos
-        if form.is_valid():
-            # salva no bd
-            user = form.save()
-            # tenta logar
-            login(request, user)
-            # vai pra home
-            # Detalhe: o redirect chama o NOME da página, e não o endpoint
-            return redirect('home')
-        return render(request, self.template_name, {'form': form})
+Configuramos o queryset para todos os objetos Reader e o serializer_class para o ReaderSerializer que criamos anteriormente. 
+'''
+class ReaderListCreateView(ListCreateAPIView):
+    # Define o modelo
+    queryset = Reader.objects.all()
+    # Define o serializador
+    serializer_class = ReaderSerializer
+    # Define as permissões (apenas usuários autenticados podem acessar)
+    #permission_classes = [IsAuthenticated]
 
-class ReaderLoginView(LoginView):
-    # caminho do template na pasta "templates"
-    template_name = 'login.html'
 
-    def get(self, request, *args, **kwargs):
-        form = ReaderLoginForm()
-        return render(request, self.template_name, {'form': form})
+# Recuperação, atualização e exclusão de leitores
+'''
+ReaderRetrieveUpdateDestroyView é outra classe de visualização genérica que lida
+com operações de recuperação (GET), atualização (PUT), destruição (DELETE) para a entidade Reader.
+'''
+class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    # Define o modelo
+    queryset = Reader.objects.all()
+    # Define o serializador
+    serializer_class = ReaderSerializer
+    # Define as permissões (apenas usuários autenticados podem acessar)
+    #permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
-        form = ReaderLoginForm(data=request.POST)
-        #return redirect('home')
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-        return render(request, self.template_name, {'form': form})
-
-class ReaderLogoutView(LogoutView):
-    
-    pass
-
-# pagina inicial
-def index(request):
-    return render(request, 'index.html')
+# Maneira 2 com apiview
+@api_view(['GET', 'POST'])
+def reader_list(request):
+    if request.method == 'GET':
+        readers = Reader.objects.all()
+        serializer = ReaderSerializer(readers, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ReaderSerializer(data=request.data)
+        if serializer.is_valid(): # se o serializer for valido
+            serializer.save() # salva o objeto
+            return Response(serializer.data, status=status.HTTP_201_CREATED) # retorna o objeto criado
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
