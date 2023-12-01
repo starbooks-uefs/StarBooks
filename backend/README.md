@@ -1,5 +1,5 @@
 # Instruções
-Primeiro entre na pasta back end (a mais externa)
+Primeiro, estar no diretório /StarBooks
 ## Instalando dependências
 - Criar venv (virtual enviroment)
 ```console
@@ -21,6 +21,10 @@ venv/Scripts/activate
 ```console
 pip install -r requirements.txt
 ```
+# QUAISQUER COMANDOS COM manage.py PRECISAM ESTAR NO DIRETÓRIO: StarBooks/backend
+```console
+cd backend/
+```
 ## Para testar banco de dados
 Entrar com o comando:
 ```console
@@ -35,7 +39,7 @@ Vai aparecer 'postgres=>'
 ```console
 \d nome_da_tabela
 ```
-Para sair apertar ctrl+d
+OBS: Para sair, apertar ctrl+d
 
 ## Para executar
 Entrar com o comando:
@@ -44,16 +48,49 @@ python manage.py runserver
 ```
 ### Rotas
 
-As rotas ainda não estão autenticando, provavelmente porque não fiz as migrações.
-Além disso, precisa-se rever como funciona a linha 134 no arquivo settings.py, que aparentemente precisaremos usar:
+#### Teste para listar e criar usuários
+- Listar (GET)
 ```console
-AUTH_USER_MODEL = 
+http://127.0.0.1:8000/api/readers/
 ```
-- Login
+- Criar (POST)
 ```console
-http://127.0.0.1:8000/reader/login/
+http://127.0.0.1:8000/api/readers/
 ```
-- Cadastro
+Exemplo de POST:
+
 ```console
-http://127.0.0.1:8000/reader/signup/
+{
+  "id": "123e4567-e89b-12d3-a456-426614174001",
+  "name": "John",
+  "last_name": "Doe",
+  "password": "password123",
+  "email": "john.doe@example.com",
+  "birthdate": "2000-01-01T12:00:00Z",
+  "phone_number": 1234567890,
+  "cpf": 123456789,
+  "gender": "Male",
+  "cardholder": "John Doe",
+  "cvv": 123,
+  "card_number": 123456789,
+  "card_date": "2023-12-01T00:00:00Z"
+}
 ```
+
+#### Teste para listar, atualizar e deletar usuário pelo UUID:
+
+- Listar (GET)
+```console
+http://127.0.0.1:8000/api/readers/<uuid:pk>/
+```
+- Atualizar (PUT)
+```console
+http://127.0.0.1:8000/api/readers/<uuid:pk>/
+```
+- Deletar (DELETE)
+```console
+http://127.0.0.1:8000/api/readers/<uuid:pk>/
+```
+
+
+
