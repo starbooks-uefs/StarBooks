@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ReaderListCreateView, ReaderRetrieveUpdateDestroyView
+from .views import ReaderListCreateView, ReaderRetrieveUpdateDestroyView, reader_login
 
 
 
@@ -8,6 +8,7 @@ urlpatterns = [
     
     path('api/readers/', ReaderListCreateView.as_view(), name='reader-list-create'),
     path('api/readers/<uuid:pk>/', ReaderRetrieveUpdateDestroyView.as_view(), name='reader-retrieve-update-destroy'),
+    path('api/accounts/login/', reader_login, name='reader-login'),
     
     #path('api/teste1/', views.reader_list, name='teste1'),
     #path('api/teste2/<uuid:pk>/', views.reader_list, name='teste2'),
