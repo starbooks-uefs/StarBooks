@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from .models import Reader
+from .models import Admin
 
 from django.contrib.auth.hashers import check_password
 
-class ReaderSerializer(serializers.ModelSerializer):
+class AdminSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Reader
+        model = Admin
         fields = '__all__'
         
-class LoginReaderSerializer(serializers.Serializer):
+class LoginAdminSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
@@ -28,7 +28,7 @@ class LoginReaderSerializer(serializers.Serializer):
         
     
 def authenticate(email=None, password=None):
-    User = Reader
+    User = Admin
 
     try:
         user = User.objects.get(email=email)

@@ -1,11 +1,14 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Reader
-from .serializers import ReaderSerializer
+from .serializers import ReaderSerializer, LoginReaderSerializer
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+
+from rest_framework_simplejwt.tokens import RefreshToken
+
 # Lista e criação de leitores
 '''
 ReaderListCreateView é uma classe de visualização genérica que lida
@@ -18,6 +21,7 @@ class ReaderListCreateView(ListCreateAPIView):
     queryset = Reader.objects.all()
     # Define o serializador
     serializer_class = ReaderSerializer
+    
     # Define as permissões (apenas usuários autenticados podem acessar)
     #permission_classes = [IsAuthenticated]
 
@@ -32,6 +36,7 @@ class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Reader.objects.all()
     # Define o serializador
     serializer_class = ReaderSerializer
+    
     # Define as permissões (apenas usuários autenticados podem acessar)
     #permission_classes = [IsAuthenticated]
 
@@ -48,3 +53,24 @@ def reader_list(request):
             serializer.save() # salva o objeto
             return Response(serializer.data, status=status.HTTP_201_CREATED) # retorna o objeto criado
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([])
+def reader_login(request):
+    if request.method == 'POST':
+        serializer = LoginReaderSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data
+            
+            # Criar token
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            
+            # Utilize um serializer para converter o objeto Reader para um formato serializável
+            credentials = {"email": user.email, "password": user.password}
+            
+            return Response({'message': 'Login successful', 'credentials': credentials, 'access_token': access_token}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({'message': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+
