@@ -1,7 +1,8 @@
 from django.db import models
+import uuid
 
 class Reader(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     password = models.CharField(max_length=16)
