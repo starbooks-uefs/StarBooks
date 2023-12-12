@@ -1,9 +1,17 @@
 from django.shortcuts import render
-from django.db import models
 
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
+from .models import Ebook
+from .serializers import EbookSerializer
 
-class Ebook(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
-    description = models.TextField()
+class EbookListCreateView(ListCreateAPIView):
+    queryset = Ebook.objects.all()
+    serializer_class = EbookSerializer
+    permission_classes = [IsAuthenticated]
+
+class EbookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Ebook.objects.all()
+    serializer_class = EbookSerializer
+    permission_classes = [IsAuthenticated]
+
