@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Reader
 from .serializers import ReaderSerializer
 from rest_framework.response import Response
-from rest_framework import statusLoginReaderSerializer
+#from rest_framework import statusLoginReaderSerializer
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
