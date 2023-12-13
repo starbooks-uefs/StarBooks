@@ -42,13 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'adm',
     'book',
     'cart',
     'producer',
     'purchase',
     'reader',
-    'submission'
+    'submission',
+
+    'backend',
 ]
 
 MIDDLEWARE = [
@@ -86,10 +89,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 ### Configuração do banco aqui ###
-DATABASES = {
+'''DATABASES = {
     'default': dj_database_url.config(
         default='postgres://postgres:XDhPjy7bwMihMt8H@db.jsghuugofoknojupsexh.supabase.co:5432/postgres'
     )
+}'''
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -154,3 +164,5 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+AUTH_USER_MODEL = 'backend.User'
