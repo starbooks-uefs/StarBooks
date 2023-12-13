@@ -15,3 +15,5 @@ class EbookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = EbookSerializer
     permission_classes = [IsAuthenticated]
 
+
+

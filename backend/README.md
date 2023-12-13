@@ -17,6 +17,9 @@ Windows:
 venv/Scripts/activate
 ```
 
+```console
+cd backend/
+```
 ### Instalar dependências
 ```console
 pip install -r requirements.txt
