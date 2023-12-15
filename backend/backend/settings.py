@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'purchase',
     'reader',
     'submission',
-
-    'backend',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -165,4 +164,4 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-AUTH_USER_MODEL = 'backend.User'
+AUTH_USER_MODEL = 'user.User'
