@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .models import Admin
 
 @receiver(post_migrate)
-def create_root_admin_users(sender, **kwargs):
+def create_root_admin(sender, **kwargs):
     Admin.objects.get_or_create(
         username='root_admin',
         defaults={
