@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .models import Reader
 
 @receiver(post_migrate)
-def create_root_reader_users(sender, **kwargs):
+def create_root_reader(sender, **kwargs):
     Reader.objects.get_or_create(
         username='root_reader',
         defaults={

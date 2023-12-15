@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .models import Producer
 
 @receiver(post_migrate)
-def create_root_producer_users(sender, **kwargs):
+def create_root_producer(sender, **kwargs):
     Producer.objects.get_or_create(
         username='root_producer',
         defaults={
