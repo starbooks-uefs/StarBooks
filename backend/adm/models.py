@@ -1,14 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-class Admin(models.Model):
-    id = models.UUIDField(primary_key=True)
-    name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
-    password = models.CharField(max_length=16)
-    email = models.CharField(unique=True, max_length=60)
-    birthdate = models.DateTimeField()
-    phone_number = models.IntegerField(blank=True, null=True)
 
+class Admin(get_user_model()):
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'admin'

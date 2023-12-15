@@ -1,14 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-# Create your models here.
-class Producer(models.Model):
-    id = models.UUIDField(primary_key=True)
-    name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
-    password = models.CharField(max_length=16)
-    email = models.CharField(unique=True, max_length=60)
-    birthdate = models.DateTimeField()
-    phone_number = models.IntegerField(blank=True, null=True)
+class Producer(get_user_model()):
     cnpj = models.IntegerField(unique=True)
     bank_name = models.CharField(max_length=25)
     bank_agency = models.IntegerField()
@@ -16,5 +9,5 @@ class Producer(models.Model):
     account_type = models.CharField(max_length=10)
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'producer'

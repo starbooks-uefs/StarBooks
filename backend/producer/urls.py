@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProducerListCreateView, ProducerRetrieveUpdateDestroyView, producer_login
+from .views import ProducerListCreateView, ProducerRetrieveUpdateDestroyView, ProducerLoginView, ProducerLogoutView
 
 
 
@@ -7,5 +7,6 @@ from .views import ProducerListCreateView, ProducerRetrieveUpdateDestroyView, pr
 urlpatterns = [
     path('producers/', ProducerListCreateView.as_view(), name='producer-list-create'),
     path('producers/<uuid:pk>/', ProducerRetrieveUpdateDestroyView.as_view(), name='producer-retrieve-update-destroy'),
-    path('accounts/producer/login/', producer_login, name='producer-login'),
+    path('producers/login/', ProducerLoginView.as_view(), name='producer-login'),
+    path('producers/logout/', ProducerLogoutView.as_view(), name='producer-logout')
 ]

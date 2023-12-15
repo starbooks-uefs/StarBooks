@@ -6,8 +6,9 @@ class Reader(get_user_model()):
     gender = models.CharField(max_length=15, blank=True, null=True)
     cardholder = models.CharField(max_length=50)
     cvv = models.IntegerField()
-    card_number = models.IntegerField()
-    card_date = models.DateTimeField()
+    card_number = models.CharField(max_length=20)
+    card_date = models.DateField()
 
     class Meta:
+        #managed = False
         db_table = 'reader'
