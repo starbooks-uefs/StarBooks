@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from .models import book
+from .models import Book
 
-class EbookSerializer(serializers.ModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = book
+        model = Book
         fields = '__all__'
 
 # Atualizar Ebook
-class UpdateEBookPriceSerializer(serializers.ModelSerializer):
+class UpdateBookPriceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = book
+        model = Book
         fields = ['price']

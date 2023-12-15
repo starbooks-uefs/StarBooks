@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import EbookListCreateView, EbookRetrieveUpdateDestroyView, AddEBookView, UpdateEBookPriceView
+from .views import BookListCreateView, BookRetrieveUpdateDestroyView, AddBookView, UpdateBookPriceView
 
 urlpatterns = [
-    path('ebooks/', EbookListCreateView.as_view(), name='ebook-list-create'),
-    path('ebooks/<int:pk>/', EbookRetrieveUpdateDestroyView.as_view(), name='ebook-retrieve-update-destroy'),
-    path('add_ebook/', AddEBookView.as_view(), name='add-ebook'),
-    path('update_ebook_price/<int:pk>/', UpdateEBookPriceView.as_view(), name='update-ebook-price'),
+    path('books/', BookListCreateView.as_view(), name='book-list-create'),
+    path('books/<int:pk>/', BookRetrieveUpdateDestroyView.as_view(), name='book-retrieve-update-destroy'),
+    path('add_book/', AddBookView.as_view(), name='add-book'),
+    path('update_book_price/<int:pk>/', UpdateBookPriceView.as_view(), name='update-book-price'),
     
 ]
