@@ -1,15 +1,18 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Reader
+from book.models import Book
+from purchase.models import Purchase
+from purchase.serializers import PurchaseSerializer
 from .serializers import ReaderSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-
-
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
 # Lista e criação de leitores
 class ReaderListCreateView(ListCreateAPIView):
     queryset = Reader.objects.all()
@@ -60,3 +63,47 @@ class ReaderLogoutView(APIView):
             return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+        
+class ReaderAddPurchaseToLibraryView(APIView):
+    serializer_class = PurchaseSerializer
+    
+    def post(self, request, *args, **kwargs):
+        id_book = request.data.get('id_book')  # Assume que o ID do livro é fornecido nos dados da solicitação
+        id_reader = request.data.get('id_reader')  # Assume que o ID do leitor é fornecido nos dados da solicitação
+
+        # Buscar as instâncias do livro e do leitor
+        book_instance = get_object_or_404(Book, id=id_book)
+        reader_instance = get_object_or_404(Reader, id=id_reader)
+
+        try:
+            # Criar a compra usando as instâncias do livro e do leitor
+            purchase = Purchase.objects.create(
+                id_book=book_instance,
+                id_reader=reader_instance,
+                date=timezone.now()  # Você pode ajustar como desejar
+            )
+            serializer = PurchaseSerializer(purchase)
+            return Response({"Compra efetuada com sucesso!": serializer.data}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class ReaderPurchasesView(ListAPIView):
+    serializer_class = PurchaseSerializer
+
+    def get_queryset(self):
+        id_reader = self.kwargs['id_reader']
+        user = get_object_or_404(Reader, pk=id_reader)
+        purchases = Purchase.objects.filter(id_reader=user.id)
+        return purchases
+
+class ReaderPurchaseDetailView(RetrieveAPIView):
+    serializer_class = PurchaseSerializer
+
+    def get_object(self):
+        id_reader = self.kwargs['id_reader']
+        id_purchase = self.kwargs['id_purchase']
+        purchase = get_object_or_404(Purchase, id_reader=id_reader, pk=id_purchase)
+        return purchase
