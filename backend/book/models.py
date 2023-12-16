@@ -21,5 +21,5 @@ class Book(models.Model):
     submission_reason = models.TextField()
 
     class Meta:
-        managed = False
+      #  managed = False
         db_table = 'book'

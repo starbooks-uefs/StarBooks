@@ -9,17 +9,17 @@ from .permissions import IsBookOwner
 class BookListCreateView(ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+   # permission_classes = [IsAuthenticated]
 
 class BookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 class AddBookView(CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         # Atribuir o e-book ao produtor atual
@@ -28,7 +28,7 @@ class AddBookView(CreateAPIView):
 class UpdateBookPriceView(UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = UpdateBookPriceSerializer
-    permission_classes = [IsAuthenticated, IsBookOwner]
+    #permission_classes = [IsAuthenticated, IsBookOwner]
 
     def perform_update(self, serializer):
         serializer.save()
@@ -36,4 +36,4 @@ class UpdateBookPriceView(UpdateAPIView):
 class RemoveBookView(DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated, IsBookOwner]
+   # permission_classes = [IsAuthenticated, IsBookOwner]
