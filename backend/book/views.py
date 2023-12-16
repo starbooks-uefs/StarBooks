@@ -21,17 +21,12 @@ class AddBookView(CreateAPIView):
     serializer_class = BookSerializer
     #permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        # Atribuir o e-book ao produtor atual
-        serializer.save(producer=self.request.user.producer_profile)
 
 class UpdateBookPriceView(UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = UpdateBookPriceSerializer
     #permission_classes = [IsAuthenticated, IsBookOwner]
 
-    def perform_update(self, serializer):
-        serializer.save()
 
 class RemoveBookView(DestroyAPIView):
     queryset = Book.objects.all()

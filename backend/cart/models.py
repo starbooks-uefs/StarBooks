@@ -8,6 +8,6 @@ class Cart(models.Model):
     id_reader = models.ForeignKey(Reader, models.DO_NOTHING, db_column='id_reader')
 
     class Meta:
-        managed = False
+        #managed = False
         db_table = 'cart'
         unique_together = (('id_book', 'id_reader'),)
