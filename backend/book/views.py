@@ -4,6 +4,8 @@ from rest_framework.generics import DestroyAPIView
 from .models import Book
 from .serializers import BookSerializer, UpdateBookPriceSerializer
 from .permissions import IsBookOwner
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class BookListCreateView(ListCreateAPIView):
@@ -31,4 +33,8 @@ class UpdateBookPriceView(UpdateAPIView):
 class RemoveBookView(DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Livro removido com sucesso."}, status=status.HTTP_204_NO_CONTENT)
    # permission_classes = [IsAuthenticated, IsBookOwner]
