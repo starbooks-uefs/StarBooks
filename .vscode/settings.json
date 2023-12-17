@@ -1,3 +1,7 @@
 {
-    "editor.inlineSuggest.showToolbar": "onHover"
+  "editor.inlineSuggest.showToolbar": "onHover",
+  "python.analysis.autoImportCompletions": true,
+  "cSpell.words": [
+    "enumchoicefield"
+  ]
 }
