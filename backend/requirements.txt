@@ -1,6 +1,7 @@
 Django
 djangorestframework
 djangorestframework_simplejwt
+django-enumchoicefield
 markdown
 django-filter
 django-cors-headers
