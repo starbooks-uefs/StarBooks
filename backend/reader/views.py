@@ -109,13 +109,12 @@ class ReaderPurchaseDetailView(RetrieveAPIView):
         id_purchase = self.kwargs['id_purchase']
         purchase = get_object_or_404(Purchase, id_reader=id_reader, pk=id_purchase)
         return purchase
-    
 
 class ReaderLibraryView(ListAPIView):
     serializer_class = BookSerializer
     
     def get_queryset(self):
-        id_reader = self.kwargs['id_reader']
+        id_reader = self.kwargs['id']
         purchases = Purchase.objects.filter(id_reader=id_reader)
         books = Book.objects
         for purchase in purchases:
