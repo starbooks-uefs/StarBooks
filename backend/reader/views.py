@@ -1,8 +1,10 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
+
 from .models import Reader
 from book.models import Book
+from book.serializers import BookSerializer
 from purchase.models import Purchase
 from purchase.serializers import PurchaseSerializer
 from .serializers import ReaderSerializer
@@ -107,3 +109,16 @@ class ReaderPurchaseDetailView(RetrieveAPIView):
         id_purchase = self.kwargs['id_purchase']
         purchase = get_object_or_404(Purchase, id_reader=id_reader, pk=id_purchase)
         return purchase
+    
+
+class ReaderLibraryView(ListAPIView):
+    serializer_class = BookSerializer
+    
+    def get_queryset(self):
+        id_reader = self.kwargs['id_reader']
+        purchases = Purchase.objects.filter(id_reader=id_reader)
+        books = Book.objects
+        for purchase in purchases:
+            books.get(id=purchase.id_book)
+        return books
+            

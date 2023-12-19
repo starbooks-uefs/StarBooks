@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    ReaderLibraryView,
     ReaderListCreateView, 
     ReaderRetrieveUpdateDestroyView, 
     ReaderLoginView, ReaderLogoutView, 
@@ -16,5 +17,6 @@ urlpatterns = [
     
     path('readers/add_purchase_to_library/', ReaderAddPurchaseToLibraryView.as_view(), name='reader-add-purchase-to-library'),
     path('readers/<int:id_reader>/purchases/', ReaderPurchasesView.as_view(), name='reader-purchases'),
-    path('readers/<int:id_reader>/purchases/<int:id_purchase>/', ReaderPurchaseDetailView.as_view(), name='reader-purchase-detail')
+    path('readers/<int:id_reader>/purchases/<int:id_purchase>/', ReaderPurchaseDetailView.as_view(), name='reader-purchase-detail'),
+    path('readers/<int:id_reader>/library/<int:id>/', ReaderLibraryView.as_view(), name='reader-library'),
 ]
