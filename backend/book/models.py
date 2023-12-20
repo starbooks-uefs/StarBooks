@@ -27,7 +27,7 @@ class Book(models.Model):
     language = models.CharField(max_length=25, blank=True, null=True)
     submission_status = EnumChoiceField(SubmissionStatus, default=SubmissionStatus.pending)
     submission_date = models.DateTimeField(auto_now_add=True, blank=True)
-    submission_reason = models.TextField()
+    submission_reason = models.TextField(null=True, blank=True, default=None)
 
     class Meta:
         #managed = False
