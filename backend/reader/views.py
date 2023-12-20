@@ -70,19 +70,25 @@ class ReaderAddPurchaseToLibraryView(APIView):
     serializer_class = PurchaseSerializer
     
     def post(self, request, *args, **kwargs):
-        id_book = request.data.get('id_book')  # Assume que o ID do livro é fornecido nos dados da solicitação
-        id_reader = request.data.get('id_reader')  # Assume que o ID do leitor é fornecido nos dados da solicitação
+        id_book = request.data.get('id_book')
+        id_reader = request.data.get('id_reader')
 
         # Buscar as instâncias do livro e do leitor
         book_instance = get_object_or_404(Book, id=id_book)
         reader_instance = get_object_or_404(Reader, id=id_reader)
+
+        # Verificar se o livro já está na biblioteca do leitor
+        existing_purchase = Purchase.objects.filter(id_book=book_instance, id_reader=reader_instance).exists()
+
+        if existing_purchase:
+            return Response({'error': 'Este livro já está na sua biblioteca.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             # Criar a compra usando as instâncias do livro e do leitor
             purchase = Purchase.objects.create(
                 id_book=book_instance,
                 id_reader=reader_instance,
-                date=timezone.now()  # Você pode ajustar como desejar
+                date=timezone.now()
             )
             serializer = PurchaseSerializer(purchase)
             return Response({"Compra efetuada com sucesso!": serializer.data}, status=status.HTTP_201_CREATED)
