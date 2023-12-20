@@ -5,7 +5,8 @@ from .views import (
     ReaderLoginView, ReaderLogoutView, 
     ReaderAddPurchaseToLibraryView,  
     ReaderPurchasesView,
-    ReaderPurchaseDetailView)
+    ReaderPurchaseDetailView,
+    ReaderBooksView)
 
 # URLS que serão chamas no arquivo urls.py da pasta principal do projeto
 urlpatterns = [
@@ -16,5 +17,6 @@ urlpatterns = [
     
     path('readers/add_purchase_to_library/', ReaderAddPurchaseToLibraryView.as_view(), name='reader-add-purchase-to-library'),
     path('readers/<int:id_reader>/purchases/', ReaderPurchasesView.as_view(), name='reader-purchases'),
-    path('readers/<int:id_reader>/purchases/<int:id_purchase>/', ReaderPurchaseDetailView.as_view(), name='reader-purchase-detail')
+    path('readers/<int:id_reader>/purchases/<int:id_purchase>/', ReaderPurchaseDetailView.as_view(), name='reader-purchase-detail'),
+    path('readers/<int:id_reader>/books/', ReaderBooksView.as_view(), name='reader-books'),
 ]
