@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'account',
     'adm',
     'book',
     'cart',
@@ -51,7 +52,6 @@ INSTALLED_APPS = [
     'purchase',
     'reader',
     'submission',
-    'user',
 ]
 
 MIDDLEWARE = [
@@ -179,4 +179,4 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'account.Account'
