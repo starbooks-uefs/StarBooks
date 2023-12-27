@@ -10,4 +10,5 @@ class Producer(get_user_model()):
 
     class Meta:
         #managed = False
+        #proxy = True
         db_table = 'producer'

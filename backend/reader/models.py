@@ -11,4 +11,5 @@ class Reader(get_user_model()):
 
     class Meta:
         #managed = False
+        #proxy = True
         db_table = 'reader'
