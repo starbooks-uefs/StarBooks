@@ -11,7 +11,6 @@ def create_root_admin(sender, **kwargs):
             'password': 'admin',  # Substitua pela senha desejada
             'is_staff': True,
             'is_superuser': True,
-            'user_type': 'Admin',
             'first_name': 'Root',
             'last_name': 'Admin',
             'birthdate': '1980-01-01',  # Substitua pela data de nascimento desejada
@@ -30,7 +29,6 @@ def create_root_producer(sender, **kwargs):
             'password': 'producer',
             'is_staff': False,
             'is_superuser': False,
-            'user_type': 'Producer',
             'cnpj': 12345678901234,
             'bank_name': 'Banco ABC',
             'bank_agency': 9876,
@@ -54,7 +52,6 @@ def create_root_reader(sender, **kwargs):
             'password': 'reader',
             'is_staff': False,
             'is_superuser': False,
-            'user_type': 'Reader',
             'cpf': 12345678901,
             'gender': 'Male',
             'cardholder': 'John Doe',
