@@ -8,8 +8,7 @@ class Reader(get_user_model()):
     cvv = models.IntegerField()
     card_number = models.CharField(max_length=20)
     card_date = models.DateField()
-
+    
     class Meta:
         #managed = False
-        #proxy = True
         db_table = 'reader'
