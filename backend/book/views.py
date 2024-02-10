@@ -103,16 +103,26 @@ class BookByCurrentMonthView(ListAPIView):
     
 
 class BookSearchView(ListAPIView):
-    template_name = 'book_search_results.html'
+    serializer_class = BookSerializer
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        query = self.request.GET.get('query', '')
-        
-        context['results'] = Book.objects.filter(
-            models.Q(name__icontains=query) |
-            models.Q(author__icontains=query) |
-            models.Q(synopsis__icontains=query)
-        )
-        return context
+    def get_queryset(self):
+        queryset = Book.objects.all()
+
+        # Obter parâmetros de consulta da solicitação
+        author = self.request.query_params.get('author', None)
+        year = self.request.query_params.get('year', None)
+        gender = self.request.query_params.get('gender', None)
+        publisher = self.request.query_params.get('publisher', None)
+
+        # Aplicar filtros com base nos parâmetros de consulta
+        if author:
+            queryset = queryset.filter(author__icontains=author)
+        if year:
+            queryset = queryset.filter(date__year=year)
+        if gender:
+            queryset = queryset.filter(gender__icontains=gender)
+        if publisher:
+            queryset = queryset.filter(publisher__icontains=publisher)
+
+        return queryset
     
