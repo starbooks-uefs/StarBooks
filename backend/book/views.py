@@ -101,3 +101,18 @@ class BookByCurrentMonthView(ListAPIView):
     def handle_exception(self, exc):
         return super().handle_exception(exc)
     
+
+class BookSearchView(ListAPIView):
+    template_name = 'book_search_results.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('query', '')
+        
+        context['results'] = Book.objects.filter(
+            models.Q(name__icontains=query) |
+            models.Q(author__icontains=query) |
+            models.Q(synopsis__icontains=query)
+        )
+        return context
+    

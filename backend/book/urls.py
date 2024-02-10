@@ -10,4 +10,5 @@ urlpatterns = [
     path('books/retrieve/gender/<str:gender>/', BookByGenderView.as_view(), name='book-by-gender'),
     path('books/retrieve/author/<str:author>/', BookByAuthorView.as_view(), name='book-by-author'),
     path('books/current-month/', BookByCurrentMonthView.as_view(), name='book-by-current-month'),
+    path('books/search/', BookSearchView.as_view(), name='book-search')
 ]
