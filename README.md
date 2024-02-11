@@ -167,7 +167,30 @@ python manage.py runserver
 
 ## Cart
 
-- Criar / Resgatar / Atualizar carrinho do leitor autenticado
+A lógica do carrinho é para usuários autenticados, então não precisa passar nenhum identificador pois a autenticação já atribui o id as views
+
+- Criar carrinho
 ```console
-/api/cart/  
+/api/cart/create/
+```
+
+- Adicionar livro ao carrinho (Só precisa passar 'id_book' no corpo da requisição)
+```console
+/api/cart/addToCart/
+```
+
+```console
+{
+    "id_book": 1
+}
+```
+
+- Resgatar carrinho
+```console
+/api/cart/retrieve/  
+```
+
+- Limpar carrinho
+```console
+/api/cart/clear/
 ```
