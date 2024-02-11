@@ -49,3 +49,110 @@ Entrar com o comando:
 ```console
 python manage.py runserver
 ```
+
+# Rotas
+
+## Reader
+
+- Ver todos os leitores / Criar leitor
+```console
+/api/readers/
+```
+
+- Ver / Atualizar / Deletar leitor específico
+```console
+/api/readers/<int:pk>/
+```
+
+- Login / Logout
+```console
+/api/readers/login/
+/api/readers/logout/
+```
+
+- Adicionar compra a biblioteca
+```console
+/api/readers/add_purchase_to_library/
+```
+
+- Ver todas as compras de um leitor
+```console
+/api/readers/<int:id_reader>/purchases/
+```
+
+- Ver compra específica de leitor 
+```console
+/api/readers/<int:id_reader>/purchases/<int:id_purchase>/
+```
+
+- Ver livros do leitor 
+```console
+/api/readers/<int:id_reader>/books/
+```
+
+## Producer
+
+- Ver todos os produtores / Criar produtor
+```console
+/api/producers/
+```
+
+- Ver / Atualizar / Deletar leitor específico
+```console
+/api/producers/<int:pk>/
+```
+
+- Login / Logout
+```console
+/api/producers/login/
+/api/producers/logout/
+```
+
+## Admin
+
+- Ver todos os admins / Criar admin
+```console
+/api/admins/
+```
+
+- Ver / Atualizar / Deletar admin específico
+```console
+/api/admins/<int:pk>/
+```
+
+- Login / Logout
+```console
+/api/admins/login/
+/api/admins/logout/
+```
+
+## Book
+- Ver todos os livros / Criar livro
+```console
+/api/books/
+```
+
+- Ver / Atualizar (todos os campos) / Deletar livro específico
+```console
+/api/books/<int:pk>/
+```
+
+- Atualizar preço do livro (apenas o campo 'price')
+```console
+/api/update_book_price/<int:pk>/
+```
+
+- Resgatar livro pelo gênero
+```console
+/api/books/retrieve/gender/<str:gender>/
+```
+
+- Resgatar livro pelo autor
+```console
+/api/books/retrieve/author/<str:author>/
+```
+
+- Resgatar livros do mês atual
+```console
+/api/books/current-month/
+```
