@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/', include('book.urls')),
     path('api/', include('cart.urls')),
     path('api/', include('producer.urls')),
-    path('api/', include('purchase.urls')),
+    #path('api/', include('purchase.urls')),
     path('api/', include('reader.urls')),
-    path('api/', include('submission.urls')),
+    #path('api/', include('submission.urls')),
 ]
