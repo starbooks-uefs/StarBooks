@@ -109,12 +109,15 @@ class BookSearchView(ListAPIView):
         queryset = Book.objects.all()
 
         # Obter parâmetros de consulta da solicitação
+        name = self.request.query_params.get('name', None)
         author = self.request.query_params.get('author', None)
         year = self.request.query_params.get('year', None)
         gender = self.request.query_params.get('gender', None)
         publisher = self.request.query_params.get('publisher', None)
 
         # Aplicar filtros com base nos parâmetros de consulta
+        if name:
+            queryset = queryset.filter(name__icontains=name)
         if author:
             queryset = queryset.filter(author__icontains=author)
         if year:
@@ -125,4 +128,6 @@ class BookSearchView(ListAPIView):
             queryset = queryset.filter(publisher__icontains=publisher)
 
         return queryset
+
+
     

@@ -131,6 +131,14 @@ python manage.py runserver
 ```console
 /api/books/
 ```
+- Listar livros por parametros / por nome, gênero, ano, editora, autor
+```console
+/api/books/search/?gender=name
+/api/books/search/?year=name
+/api/books/search/?name=name
+/api/books/search/?author=name
+/api/books/search/?publisher=name
+```
 
 - Ver / Atualizar (todos os campos) / Deletar livro específico
 ```console
