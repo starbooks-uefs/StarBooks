@@ -156,3 +156,10 @@ python manage.py runserver
 ```console
 /api/books/current-month/
 ```
+
+## Cart
+
+- Criar / Resgatar / Atualizar carrinho do leitor autenticado
+```console
+/api/cart/  
+```
