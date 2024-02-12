@@ -13,7 +13,7 @@ class CreateCartView(CreateAPIView):
 
     def perform_create(self, serializer):
         # Define o usuário autenticado como o id_reader do novo carrinho
-        serializer.save(id_reader=self.request.user)
+        serializer.save(id_reader=self.request.user.id)
 
 class ClearCartView(DestroyAPIView):
     queryset = Cart.objects.all()
@@ -21,7 +21,7 @@ class ClearCartView(DestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         # Limpa o carrinho do usuário
-        Cart.objects.filter(id_reader=self.request.user).delete()
+        Cart.objects.filter(id_reader=self.request.user.id).delete()
         return Response({"message": "Cart cleared successfully."}, status=HTTP_204_NO_CONTENT)
 
 class RetrieveCartView(RetrieveAPIView):
@@ -30,7 +30,7 @@ class RetrieveCartView(RetrieveAPIView):
 
     def get_object(self):
         # Obtém o carrinho do leitor autenticado
-        cart = Cart.objects.filter(id_reader=self.request.user).first()
+        cart = Cart.objects.filter(id_reader=self.request.user.id).first()
         return cart
     
 class AddToCartView(CreateAPIView):
@@ -39,7 +39,7 @@ class AddToCartView(CreateAPIView):
 
     def perform_create(self, serializer):
         # Verifica se já existe um carrinho para o usuário autenticado
-        cart = Cart.objects.filter(id_reader=self.request.user).first()
+        cart = Cart.objects.filter(id_reader=self.request.user.id).first()
         if cart:
             # Se o carrinho já existe, apenas atualiza o id_book
             cart.id_book = serializer.validated_data['id_book']
