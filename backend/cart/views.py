@@ -18,14 +18,14 @@ class CreateCartView(CreateAPIView):
         # Define o perfil de leitor como o id_reader do novo carrinho
         serializer.save(id_reader=reader)
 
-class ClearCartView(DestroyAPIView):
+class ClearCartView(UpdateAPIView):
     queryset = Cart.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, *args, **kwargs):
-        # Limpa o carrinho do usuário
-        Cart.objects.filter(id_reader=self.request.user.id).delete()
-        return Response({"message": "Cart cleared successfully."}, status=HTTP_204_NO_CONTENT)
+    def update(self, request, *args, **kwargs):
+        # Atualiza o campo id_book para null no banco de dados
+        Cart.objects.filter(id_reader=self.request.user).update(id_book=None)
+        return Response({"message": "Book removed from cart successfully."}, status=HTTP_204_NO_CONTENT)
 
 class RetrieveCartView(RetrieveAPIView):
     serializer_class = CartSerializer
