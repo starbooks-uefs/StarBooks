@@ -63,4 +63,5 @@ class ProducerLogoutView(APIView):
 class UpdateProducerView(UpdateAPIView):
     queryset = Producer.objects.all()
     serializer_class = UpdateProducerSerializer
+    lookup_field = 'pk'
     #permission_classes = [IsAuthenticated, IsProducerOwner]       
