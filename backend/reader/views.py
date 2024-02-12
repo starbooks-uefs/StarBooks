@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.status import HTTP_201_CREATED
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Reader
@@ -14,6 +15,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from cart.models import Cart
 # Lista e criação de leitores
 class ReaderListCreateView(ListCreateAPIView):
     queryset = Reader.objects.all()
@@ -26,6 +28,16 @@ class ReaderListCreateView(ListCreateAPIView):
 class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Reader.objects.all()
     serializer_class = ReaderSerializer
+    
+    def perform_create(self, serializer):
+        # Cria o novo leitor
+        reader_instance = serializer.save()
+
+        # Cria um carrinho associado ao novo leitor
+        Cart.objects.create(id_reader=reader_instance)
+
+        return Response(serializer.data, status=HTTP_201_CREATED)
+    
     # Define as permissões (apenas usuários autenticados podem acessar)
     #permission_classes = [IsAuthenticated]
     
