@@ -10,3 +10,8 @@ class CartBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['id_book']
+
+class CreateCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = []  # Nenhum campo especificado
