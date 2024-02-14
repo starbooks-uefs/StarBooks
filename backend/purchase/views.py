@@ -1,20 +1,16 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render
-from .models import Purchase
+from django.http import JsonResponse
+from .models import Purchase, Book
 
 def get_purchase_by_id(request, id_book):
   """
-  Função para obter a quantidade de vezes que um ebook foi comprado.
+  Função para obter a quantidade de vezes que um ebook foi comprado e o valor total arrecadado, retornando um JSON.
 
   Args:
     request: requisição HTTP
     id_book: ID do ebook
 
   Returns:
-    Dicionário com a quantidade de compras do ebook
+    Dicionário em formato JSON com a quantidade de compras, valor total arrecadado e preço do ebook
   """
 
   # Busca a quantidade de compras do ebook
@@ -23,6 +19,15 @@ def get_purchase_by_id(request, id_book):
   except Purchase.DoesNotExist:
     purchase_count = 0
 
-  # Retorna a quantidade de compras
-  return render(request, 'purchase_detail.html', {'purchase_count': purchase_count})
+  # Busca o preço do ebook
+  try:
+    book = Book.objects.get(pk=id_book)
+    price = book.price
+  except Book.DoesNotExist:
+    price = 0
 
+  # Calcula o valor total arrecadado
+  total_revenue = purchase_count * price
+
+  # Retorna um dicionário em formato JSON
+  return JsonResponse({'purchase_count': purchase_count, 'total_revenue': total_revenue, 'price': price})
