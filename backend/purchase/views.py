@@ -47,7 +47,7 @@ def get_bestseller(request):
 
   # Busca o livro mais vendido
   try:
-    bestseller = Book.objects.annotate(purchase_count=Count('purchases')).order_by('-purchase_count')[0]
+    bestseller = Book.objects.annotate(purchase_count=Count('purchase')).order_by('-purchase_count')[0]
     purchase_count = bestseller.purchase_count
   except Book.DoesNotExist:
     purchase_count = 0
