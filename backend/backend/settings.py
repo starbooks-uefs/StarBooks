@@ -77,7 +77,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
-ALLOWED_HOSTS = ['starbooks-backend-uw7b.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['starbooks-backend-uw7b.onrender.com', '127.0.0.1', 'localhost']
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend.urls'
@@ -108,7 +108,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         default='postgres://postgres:XDhPjy7bwMihMt8H@db.jsghuugofoknojupsexh.supabase.co:5432/postgres'
-    )
+    ),
+    'test': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'test_db.sqlite3',
+    }
 }
 
 '''DATABASES = {
