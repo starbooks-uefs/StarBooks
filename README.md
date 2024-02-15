@@ -174,23 +174,22 @@ A lógica do carrinho é para usuários autenticados, então não precisa passar
 /api/cart/create/
 ```
 
-- Adicionar livro ao carrinho (Só precisa passar 'id_book' no corpo da requisição)
-```console
-/api/cart/addToCart/
-```
-
-```console
-{
-    "id_book": 1
-}
-```
-
 - Resgatar carrinho
 ```console
 /api/cart/retrieve/  
 ```
 
+- Adicionar livro ao carrinho
+```console
+/api/cart/add/<int:id_book>/
+```
+
 - Limpar carrinho
 ```console
 /api/cart/clear/
+```
+
+- Remover livro do carrinho
+```console
+/api/cart/clear/<int:pk>/
 ```
