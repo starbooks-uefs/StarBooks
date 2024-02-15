@@ -1,13 +1,12 @@
+# models.py
 from django.db import models
-from producer.models import Producer
-from book.models import Book
 from reader.models import Reader
-        
+from book.models import Book
+
 class Cart(models.Model):
-    id_book = models.OneToOneField(Book, models.DO_NOTHING, db_column='id_book', primary_key=True)  # The composite primary key (id_book, id_reader) found, that is not supported. The first column is selected.
-    id_reader = models.ForeignKey(Reader, models.DO_NOTHING, db_column='id_reader')
+    id_reader = models.OneToOneField(Reader, on_delete=models.CASCADE, db_column='id_reader')
+    id_book = models.ManyToManyField(Book, blank=True, db_column='id_book')
 
     class Meta:
-        managed = False
         db_table = 'cart'
-        unique_together = (('id_book', 'id_reader'),)
+        unique_together = ('id_reader',)

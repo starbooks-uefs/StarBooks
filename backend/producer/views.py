@@ -8,7 +8,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-
+from rest_framework.generics import UpdateAPIView
+from .serializers import ProducerSerializer, UpdateProducerSerializer
 
 class ProducerListCreateView(ListCreateAPIView):
     queryset = Producer.objects.all()
@@ -56,3 +57,11 @@ class ProducerLogoutView(APIView):
             return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+
+
+    
+class UpdateProducerView(UpdateAPIView):
+    queryset = Producer.objects.all()
+    serializer_class = UpdateProducerSerializer
+    lookup_field = 'pk'
+    #permission_classes = [IsAuthenticated, IsProducerOwner]       

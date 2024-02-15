@@ -1,3 +1,14 @@
 from django.db import models
+from book.models import Book
+from reader.models import Reader
 
-# Create your models here.
+class Purchase(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_book = models.ForeignKey(Book, on_delete=models.DO_NOTHING, db_column='id_book')
+    id_reader = models.ForeignKey(Reader, on_delete=models.CASCADE, db_column='id_reader')
+    date = models.DateTimeField()
+
+    class Meta:
+        #managed = False
+        db_table = 'purchase'
+        unique_together = (('id_book', 'id_reader'),)
