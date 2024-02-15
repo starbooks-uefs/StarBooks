@@ -20,14 +20,6 @@ from cart.models import Cart
 class ReaderListCreateView(ListCreateAPIView):
     queryset = Reader.objects.all()
     serializer_class = ReaderSerializer
-    # Define as permissões (apenas usuários autenticados podem acessar)
-    #permission_classes = [IsAuthenticated]
-
-
-# Recuperação, atualização e exclusão de leitores
-class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = Reader.objects.all()
-    serializer_class = ReaderSerializer
     
     def perform_create(self, serializer):
         # Cria o novo leitor
@@ -37,6 +29,15 @@ class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         Cart.objects.create(id_reader=reader_instance)
 
         return Response(serializer.data, status=HTTP_201_CREATED)
+    
+    # Define as permissões (apenas usuários autenticados podem acessar)
+    #permission_classes = [IsAuthenticated]
+
+
+# Recuperação, atualização e exclusão de leitores
+class ReaderRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Reader.objects.all()
+    serializer_class = ReaderSerializer
     
     # Define as permissões (apenas usuários autenticados podem acessar)
     #permission_classes = [IsAuthenticated]
