@@ -74,8 +74,11 @@ CORS_ALLOWED_ORIGINS = [
 
 
 CORS_ORIGIN_WHITELIST = [
- 'http://localhost:3000',
+    'http://localhost:3000',
 ]
+
+ALLOWED_HOSTS = ['starbooks-backend.onrender.com']
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -102,18 +105,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 ### Configuração do banco aqui ###
-'''DATABASES = {
+DATABASES = {
     'default': dj_database_url.config(
         default='postgres://postgres:XDhPjy7bwMihMt8H@db.jsghuugofoknojupsexh.supabase.co:5432/postgres'
     )
-}'''
+}
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+}'''
 
 
 # Password validation
