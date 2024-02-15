@@ -77,7 +77,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
-ALLOWED_HOSTS = ['starbooks-backend.onrender.com']
+ALLOWED_HOSTS = ['starbooks-backend-uw7b.onrender.com', '127.0.0.1']
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend.urls'
