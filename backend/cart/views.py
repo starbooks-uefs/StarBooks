@@ -3,10 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Cart
 from reader.models import Reader
-from .serializers import CreateCartSerializer, CartSerializer, CartBookSerializer
+from book.models import Book
+from .serializers import CreateCartSerializer, CartBookSerializer, CartRetrieveSerializer
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT
 from rest_framework.exceptions import ValidationError
+from rest_framework import status
+
 
 
 class CreateCartView(CreateAPIView):
@@ -47,12 +50,15 @@ class RemoveBookFromCartView(UpdateAPIView):
         return Response({"message": "Book removed from cart successfully."}, status=HTTP_204_NO_CONTENT)
 
 class RetrieveCartView(RetrieveAPIView):
-    serializer_class = CartSerializer
+    serializer_class = CartRetrieveSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        cart, _ = Cart.objects.get_or_create(id_reader=self.request.user.id)
+        username = self.request.user
+        reader_instance, _ = Reader.objects.get_or_create(username=username)
+        cart, _ = Cart.objects.get_or_create(id_reader=reader_instance)
         return cart
+
 
 class AddToCartView(CreateAPIView):
     serializer_class = CartBookSerializer
@@ -61,7 +67,13 @@ class AddToCartView(CreateAPIView):
     def perform_create(self, serializer):
         # Obtém o id_book da URL
         id_book = self.kwargs.get('id_book')
+        # Obtém a instância do livro ou retorna 404 se não existir
+        book_instance = get_object_or_404(Book, id=id_book)
+        # Adiciona a instância do livro ao serializer do carrinho
+        serializer.validated_data['id_book'] = [book_instance]
         # Obtém ou cria o carrinho do usuário autenticado
-        cart, _ = Cart.objects.get_or_create(id_reader=self.request.user.id)
-        # Adiciona o id_book ao carrinho
-        cart.id_book.add(id_book)
+        cart, _ = Cart.objects.get_or_create(id_reader=self.request.user)
+        # Adiciona o livro ao carrinho
+        cart.id_book.add(book_instance)
+        # Retorna uma resposta de sucesso
+        return Response({'message': 'Book added to cart successfully'}, status=status.HTTP_201_CREATED)

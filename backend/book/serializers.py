@@ -7,6 +7,11 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
+        
+class BookOnCartSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Book
+        fields = ['id', 'name', 'author', 'cover_url', 'price']
 
 # Atualizar Ebook
 class UpdateBookPriceSerializer(serializers.ModelSerializer):
