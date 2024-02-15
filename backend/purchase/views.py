@@ -60,3 +60,40 @@ def get_bestseller(request):
 
   # Retorna um dicionário em formato JSON
   return JsonResponse({'id_book': bestseller.id, 'name': bestseller.name, 'purchase_count': purchase_count, 'total_revenue': total_revenue})
+
+
+def get_bestseller_by_author_by_producer(author_name, producer_id):
+  """
+  Função que retorna o livro mais vendido de um autor específico para um produtor específico em formato JSON.
+
+  Args:
+    author_name: Nome do autor.
+    producer_id: ID do produtor.
+
+  Returns:
+    Dicionário JSON com informações do livro mais vendido.
+  """
+
+  # Filtra os livros pelo autor e produtor
+  books = Book.objects.filter(
+    author=author_name,
+    id_producer=producer_id,
+  )
+
+  # Cálculo manual da soma das compras para cada livro
+  for book in books:
+    book.total_sales = sum(purchase.quantity for purchase in book.purchase_set.filter(status='approved'))
+
+  # Ordena os livros pela soma das compras
+  bestseller = books.order_by('-total_sales').first()
+
+  if bestseller:
+    # Prepara dados para JSON
+    return JsonResponse({
+      "id": bestseller.id,
+      "name": bestseller.name,
+      "author": bestseller.author,
+      "total_sales": bestseller.total_sales,
+    })
+  else:
+    return JsonResponse({"message": "Nenhum livro encontrado."})
