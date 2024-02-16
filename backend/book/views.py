@@ -129,5 +129,10 @@ class BookSearchView(ListAPIView):
 
         return queryset
 
+class BookListByProducerID(ListAPIView):
+    serializer_class = BookSerializer
 
-    
+    def get_queryset(self):
+        id = self.kwargs.get('pk')
+        queryset = Book.objects.filter(id=id)
+        return queryset
