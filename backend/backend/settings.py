@@ -107,7 +107,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 ### Configuração do banco aqui ###
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://postgres:XDhPjy7bwMihMt8H@db.jsghuugofoknojupsexh.supabase.co:5432/postgres'
+        default='postgres://postgres.jsghuugofoknojupsexh:XDhPjy7bwMihMt8H@aws-0-sa-east-1.pooler.supabase.com:5432/postgres'
     ),
     'test': {
         'ENGINE': 'django.db.backends.sqlite3',
