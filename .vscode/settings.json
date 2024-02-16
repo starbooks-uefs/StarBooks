@@ -3,5 +3,6 @@
   "python.analysis.autoImportCompletions": true,
   "cSpell.words": [
     "enumchoicefield"
-  ]
+  ],
+  "python.pythonPath": "venv\\Scripts\\python.exe"
 }
