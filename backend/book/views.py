@@ -133,6 +133,6 @@ class BookListByProducerID(ListAPIView):
     serializer_class = BookSerializer
 
     def get_queryset(self):
-        id = self.kwargs.get('pk')
-        queryset = Book.objects.filter(id=id)
+        id_producer = self.kwargs.get('pk')
+        queryset = Book.objects.filter(id_producer=id_producer)
         return queryset
