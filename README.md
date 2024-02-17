@@ -1,6 +1,8 @@
 # StarBooks
 Sistema de uma editora virtual
 
+Link do backend Hospedado: https://starbooks-backend-uw7b.onrender.com
+
 # Instruções
 - Entrar no diretório do projeto
 ```console
