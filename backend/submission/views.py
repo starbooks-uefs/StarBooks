@@ -29,7 +29,6 @@ class BookSubmissionView(APIView):
         username = self.request.user
         # Obtenha ou crie o produtor associado ao usuário
         producer, created = Producer.objects.get_or_create(username=username)
-        print(type(producer), type(producer.id))
         # Serialize os dados recebidos para criar um novo livro
         serializer = BookSubmissionSerializer(data=request.data)
         if serializer.is_valid():
