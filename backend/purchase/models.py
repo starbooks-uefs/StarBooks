@@ -12,3 +12,6 @@ class Purchase(models.Model):
         #managed = False
         db_table = 'purchase'
         unique_together = (('id_book', 'id_reader'),)
+    
+    def __str__(self):
+        return f'Compra do usuário "{self.id_reader}" do livro "{self.id_book}"'

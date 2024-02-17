@@ -10,3 +10,6 @@ class Submission(models.Model):
         #managed = False
         db_table = 'submission'
         unique_together = (('id_admin', 'id_book'),)
+
+    def __str__(self):    
+        return f'Submissão do livro "{self.id_book.name}"'

@@ -10,3 +10,6 @@ class Cart(models.Model):
     class Meta:
         db_table = 'cart'
         unique_together = ('id_reader',)
+
+    def __str__(self):
+        return f'Carrinho do usuário "{self.id_reader}"'

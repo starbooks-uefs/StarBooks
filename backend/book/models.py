@@ -32,3 +32,6 @@ class Book(models.Model):
     class Meta:
         #managed = False
         db_table = 'book'
+    
+    def __str__(self):
+        return self.name
