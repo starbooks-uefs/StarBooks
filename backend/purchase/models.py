@@ -4,7 +4,7 @@ from reader.models import Reader
 
 class Purchase(models.Model):
     id = models.AutoField(primary_key=True)
-    id_book = models.ForeignKey(Book, on_delete=models.DO_NOTHING, db_column='id_book')
+    id_book = models.ForeignKey(Book, on_delete=models.CASCADE, db_column='id_book')
     id_reader = models.ForeignKey(Reader, on_delete=models.CASCADE, db_column='id_reader')
     date = models.DateTimeField()
 

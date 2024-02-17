@@ -7,6 +7,8 @@ from .serializers import BookSerializer, UpdateBookPriceSerializer
 from .permissions import IsBookOwner
 from rest_framework.response import Response
 from rest_framework import status
+from submission.models import Submission
+from django.shortcuts import get_object_or_404
 
 from django.urls import path
 
@@ -21,6 +23,26 @@ class BookRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     #permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, *args, **kwargs):
+        # Obtém o ID do livro a ser excluído
+        book_id = kwargs.get('pk')
+        
+        # Verifica se o livro existe
+        book_instance = get_object_or_404(Book, pk=book_id)
+        
+        # Verifica se existem submissões associadas ao livro
+        if Submission.objects.filter(id_book=book_instance).exists():
+            # Se houver submissões, você pode optar por excluí-las ou atualizá-las
+            # Aqui, estou excluindo todas as submissões associadas ao livro
+            Submission.objects.filter(id_book=book_instance).delete()
+            # Ou você pode atualizar as submissões para remover a referência ao livro
+            # Submission.objects.filter(id_book=book_instance).update(id_book=None)
+        
+        # Exclui o livro
+        book_instance.delete()
+
+        return Response({"message": "Book deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 class AddBookView(CreateAPIView):
     queryset = Book.objects.all()

@@ -1,10 +1,11 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Submission
+from producer.models import Producer
 from book.models import Book, SubmissionStatus
-from .serializers import SubmissionSerializer, BookSerializer
+from .serializers import SubmissionSerializer, BookSerializer, BookSubmissionSerializer
 from rest_framework.permissions import IsAuthenticated
 from adm.models import Admin
 from django.contrib import admin
@@ -24,19 +25,23 @@ class SubmissionRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 
 class BookSubmissionView(APIView):
     def post(self, request, *args, **kwargs):
+        # Obtenha o usuário autenticado
+        username = self.request.user
+        # Obtenha ou crie o produtor associado ao usuário
+        producer, created = Producer.objects.get_or_create(username=username)
+        print(type(producer), type(producer.id))
         # Serialize os dados recebidos para criar um novo livro
-        serializer = BookSerializer(data=request.data)
+        serializer = BookSubmissionSerializer(data=request.data)
         if serializer.is_valid():
-            # Cria o livro
+            # Obtenha o ID do produtor
+            producer_id = producer.id
+            # Atribua o produtor ao campo id_producer do serializer
+            serializer.validated_data['id_producer'] = producer
+            # Crie o livro associado ao produtor
             book = serializer.save()
-
-            admin = Admin.objects.first()  # Atribui a submissão ao primeiro admin
-
-            # Cria a submissão associada ao admin
-            submission = Submission.objects.create(id_admin=admin, id_book=book)
-
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class AdminSubmissionsListView(ListAPIView):
     serializer_class = SubmissionSerializer
